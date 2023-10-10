@@ -1,4 +1,4 @@
-import Image from 'next/image'
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -12,12 +12,12 @@ export default function Home() {
         <h1 className="text-3xl font-semibold mb-2">Welcome to TaskLink - The Task Generator</h1>
         <p className="text-gray-600 mb-4">The best place to manage your tasks.</p>
         <div className="space-x-4">
-          <button className="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-full">
+          <Link href="/signin" className="bg-blue-500 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded-full text-lg">
             Sign In
-          </button>
-          <button className="bg-green-500 hover:bg-green-800 text-white font-bold py-2 px-4 rounded-full">
+          </Link>
+          <Link href="/signup" className="bg-green-500 hover:bg-green-800 text-white font-bold py-2 px-4 rounded-full text-lg">
             Sign Up
-          </button>
+          </Link>
         </div>
       </div>
     </div>
