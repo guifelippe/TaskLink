@@ -1,8 +1,17 @@
 import Link from 'next/link';
+import Head from 'next/head';
 
 export default function Home() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <>
+    <Head>
+      <title>TaskLink</title>
+      <meta name="description" content="Task Generator" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel='icon' href='favicon.ico'/>
+    </Head>
+    <main>
+      <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="text-center">
         <img
           src="/logo.jpg"
@@ -21,5 +30,8 @@ export default function Home() {
         </div>
       </div>
     </div>
+    </main>
+    </>
+    
   )
 }
