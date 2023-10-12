@@ -2,20 +2,26 @@ import axios, { Axios, AxiosResponse } from 'axios';
 import { resolve } from 'path';
 
 const api = axios.create({
-    baseURL: "http://localhots:3000"
+    baseURL: "http://localhost:3000"
 });
 
 export interface User
 {
-    id: string;
     name: string;
     email: string;
     password: string;
 }
 
-export interface Task
+export interface TaskData
 {
     id: string;
+    title: string;
+    isCompleted: boolean;
+    userId: string;
+}
+
+export interface TaskPost
+{
     title: string;
     isCompleted: boolean;
     userId: string;
@@ -44,9 +50,9 @@ export async function postUser(user: User): Promise<User[]>{
     }
 }
 
-export async function postTask(task: Task): Promise<Task[]> {
+export async function postTask(task: TaskPost): Promise<TaskData> {
     try{
-        const response: AxiosResponse<Task[]> = await api.post('/create-task', task)
+        const response: AxiosResponse<TaskData> = await api.post('/create-task', task)
         return response.data
     }
     catch(error)
@@ -55,9 +61,9 @@ export async function postTask(task: Task): Promise<Task[]> {
     }
 }
 
-export async function getTasks(userId: string): Promise<Task[]> {
+export async function getTasks(userId: string): Promise<TaskData[]> {
     try{
-        const response: AxiosResponse<Task[]> = await axios.get(`/get-task/${userId}`)
+        const response: AxiosResponse<TaskData[]> = await api.get(`/get-task/${userId}`)
         return response.data
     }
     catch(error)
@@ -66,9 +72,9 @@ export async function getTasks(userId: string): Promise<Task[]> {
     }
 }
 
-export async function deleteTask(id: string): Promise<Task> {
+export async function deleteTask(id: string): Promise<TaskData> {
     try{
-        const response: AxiosResponse<Task> = await axios.delete(`/delete-task/${id}`)
+        const response: AxiosResponse<TaskData> = await api.delete(`/delete-task/${id}`)
         return response.data
     }    
     catch(error)
@@ -77,9 +83,9 @@ export async function deleteTask(id: string): Promise<Task> {
     }
 }
 
-export async function updateTask(id: string, task: TaskUpdate): Promise<Task> {
+export async function updateTask(id: string, task: TaskUpdate): Promise<TaskData> {
     try{
-        const response: AxiosResponse<Task> = await axios.put(`/update-task/${id}`, task)
+        const response: AxiosResponse<TaskData> = await api.put(`/update-task/${id}`, task)
         return response.data
     }
     catch(error)

@@ -4,7 +4,7 @@ interface TaskProps {
   title: string;
   isCompleted: boolean;
   onDelete: () => void;
-  onUpdate: (newTitle: string, newIsCompleted: boolean) => void; // Adicione a prop para atualizar a tarefa
+  onUpdate: (newTitle: string, newIsCompleted: boolean) => void;
 }
 
 const Task: React.FC<TaskProps> = ({ title, isCompleted, onDelete, onUpdate }) => {
@@ -17,7 +17,7 @@ const Task: React.FC<TaskProps> = ({ title, isCompleted, onDelete, onUpdate }) =
   };
 
   const handleUpdateClick = () => {
-    onUpdate(newTitle, newIsCompleted); // Chame onUpdate com o novo título e estado da conclusão
+    onUpdate(newTitle, newIsCompleted);
     setIsEditing(false);
   };
 
@@ -32,7 +32,7 @@ const Task: React.FC<TaskProps> = ({ title, isCompleted, onDelete, onUpdate }) =
       <input
         type="checkbox"
         className="form-checkbox text-blue-500 h-6 w-6"
-        checked={newIsCompleted} // Use newIsCompleted em vez de isCompleted
+        checked={newIsCompleted} 
         onChange={() => setNewIsCompleted(!newIsCompleted)}
       />
       {isEditing ? (
@@ -43,7 +43,7 @@ const Task: React.FC<TaskProps> = ({ title, isCompleted, onDelete, onUpdate }) =
           onChange={handleTitleChange}
         />
       ) : (
-        <span className={newIsCompleted ? 'line-through' : ''}>{title}</span> // Use newIsCompleted em vez de isCompleted
+        <span className={newIsCompleted ? 'line-through' : ''}>{title}</span>
       )}
       {isEditing ? (
         <>

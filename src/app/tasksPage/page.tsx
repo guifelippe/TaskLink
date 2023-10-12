@@ -1,40 +1,79 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Task from '../components/Task';
 import { FaPlus } from 'react-icons/fa';
-
-interface TaskData {
-    id: number;
-    title: string;
-    isCompleted: boolean;
-}
+import { TaskData, updateTask } from '../api/api';
+import { TaskUpdate, TaskPost } from '../api/api';
+import { postTask, getTasks, deleteTask } from '../api/api';
+import Cookies from 'js-cookie';
 
 export default function TaskListPage(){
-    const [tasks, setTasks] = useState<TaskData[]>([
-        { id: 1, title: 'Fazer compras', isCompleted: false },
-        { id: 2, title: 'Estudar React', isCompleted: false },
-        { id: 3, title: 'Lavar o carro', isCompleted: true },
-    ]);
+    const [tasks, setTasks] = useState<TaskData[]>([])
     
-    const handleDeleteTask = (taskId: number) => {
-        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+    const userId = Cookies.get('userId') as string;
+
+    useEffect(() => {
+      const fetchTask = async () => {
+        try{
+          const tasks = await getTasks(userId)
+          setTasks(tasks)
+        }
+        catch(error)
+        {
+          alert('Error when searching for tasks')
+        }
+      };
+
+      fetchTask();
+    }, [userId])
+    
+    const handleUpdateTask =async (taskId: string, newTitle: string, newIsCompleted: boolean) => {
+      try {
+        const updatedTasks = [...tasks];
+    
+        const taskToUpdate = updatedTasks.find((task) => task.id === taskId);
+    
+        if (taskToUpdate) {
+          taskToUpdate.title = newTitle;
+          taskToUpdate.isCompleted = newIsCompleted;
+    
+          await updateTask(taskId, { title: newTitle, isCompleted: newIsCompleted });
+    
+          setTasks(updatedTasks);
+        }
+      } catch (error) {
+        alert('Error when updating the task');
+      }
     };
-    
-    const handleUpdateTask = (taskId: number) => {
-        setTasks((prevTasks) =>
-          prevTasks.map((task) =>
-            task.id === taskId ? { ...task, isCompleted: !task.isCompleted } : task
-        ));
-    };
-    
-    const handleAddTask = () => {
-        const newTaskId = Math.max(...tasks.map((task) => task.id), 0) + 1;
-        const newTask = {
-          id: newTaskId,
-          title: 'New Task',
-          isCompleted: false,
-        };
+
+    const handleAddTask = async () => {
+      const newDataTask = {
+        title: 'New Task',
+        isCompleted: false,
+        userId: userId
+      }
+
+      try{
+        const response = await postTask(newDataTask);
+        const newTask = response;
+
         setTasks([...tasks, newTask]);
+      }
+      catch(error)
+      {
+        alert('Error adding task')
+      }
+    };
+
+    const handleDeleteTask = async (taskId: string) => {
+      try{
+        await deleteTask(taskId)
+
+        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+      }
+      catch(error){
+        alert('Error when deleting task')
+      }
     };
     
     return (
@@ -50,15 +89,19 @@ export default function TaskListPage(){
                 New Task
               </button>
             </div>
-            {tasks.map((task) => (
+            {tasks.length === 0 ? ( // Verifica se não há tarefas
+          <p>No tasks to display. Please add a new task.</p>
+          ) : (
+            tasks.map((task) => (
               <Task
                 key={task.id}
                 title={task.title}
                 isCompleted={task.isCompleted}
                 onDelete={() => handleDeleteTask(task.id)}
-                onUpdate={() => handleUpdateTask(task.id)}
+                onUpdate={(newTitle, newIsCompleted) => handleUpdateTask(task.id, newTitle, newIsCompleted)}
               />
-            ))}
+            ))
+        )}
           </div>
         </div>
     );

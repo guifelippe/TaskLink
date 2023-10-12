@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react';
 import axios from 'axios'
 import { useRouter } from 'next/navigation';
 import { Auth } from '@/app/api/api';
+import Cookies from 'js-cookie';
 
 export default function Login(){
     const router = useRouter()
@@ -23,7 +24,9 @@ export default function Login(){
       try{
         axios.post('http://localhost:3000/login', {email, password}).then((response) => {
           if (response.status === 200) {
-            router.push('/tasksPage');
+            const userId = response.data.id; 
+            Cookies.set('userId', userId)
+            router.push(`/tasksPage?userId=${userId}`);
           }
           else
           {

@@ -1,10 +1,60 @@
-
+'use client';
+import { postUser } from "@/app/api/api";
+import { User } from "@/app/api/api";
+import { useRouter } from "next/navigation";
+import React, { useRef, useState} from 'react'
 
 export default function SignUp(){
+
+  const router = useRouter()
+  const [user, setUser] = useState<User>({
+    name: '',
+    email: '',
+    password: '',
+  })
+
+  const [consfirmPassword, setConfirmPassword] = useState('');
+
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>)
+  {
+    e.preventDefault()
+    if(user.password !== consfirmPassword){
+      alert('Password and Confirm Password do not match')
+      return
+    }
+    
+    try{
+      postUser(user).then((response) => {
+        alert('User successfully registered')
+        router.push('/signin')
+      }).catch((error) => {
+        alert(`Error when registering the user ${error}`)
+      })
+    }
+    catch(error)
+    {
+      alert('Error when registering the user')
+    }
+  }
+
+  function handleChangeInput(event: React.ChangeEvent<HTMLInputElement>) 
+  {
+    const { name, value } = event.target;
+
+    if (name === 'confirmPassword') {
+      setConfirmPassword(value);
+    } 
+    else 
+    {
+      setUser(prevUser => ({ ...prevUser, [name]: value }));
+    }
+  }
+
     return(
     <div className="min-h-screen flex items-center justify-center bg-gray-200">
       <form
         className="bg-white shadow-md rounded-lg p-8 w-96"
+        onSubmit={handleSubmit}
       >
         <h2 className="text-2xl font-semibold mb-4">Register</h2>
         <div className="mb-4">
@@ -18,7 +68,8 @@ export default function SignUp(){
             type="text"
             id="name"
             name="name"
-            value="Name"
+            value={user.name}
+            onChange={handleChangeInput}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             required
           />
@@ -34,7 +85,8 @@ export default function SignUp(){
             type="email"
             id="email"
             name="email"
-            value="email"
+            value={user.email}
+            onChange={handleChangeInput}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             required
           />
@@ -50,7 +102,8 @@ export default function SignUp(){
             type="password"
             id="password"
             name="password"
-            value="password"
+            value={user.password}
+            onChange={handleChangeInput}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             required
           />
@@ -66,7 +119,8 @@ export default function SignUp(){
             type="password"
             id="confirmPassword"
             name="confirmPassword"
-            value="password"
+            value={consfirmPassword}
+            onChange={handleChangeInput}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             required
           />
