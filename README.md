@@ -44,12 +44,12 @@ To get started with TaskLink, follow these steps:
 
 ## Technologies Used
 
--[React](https://reactjs.org/):  A JavaScript library for building user interfaces.
--[Next13.js](https://nextjs.org/): A React framework for building production-ready web applications.
--[TypeScript](https://www.typescriptlang.org/): It is a strict syntactical superset of JavaScript and adds optional static typing to the language.
--[Tailwind CSS](https://tailwindcss.com/): A utility-first CSS framework.
--[Axios](https://axios-http.com/): A promise-based HTTP client for making requests to your backend API.
--[js-cookie](https://github.com/js-cookie/js-cookie): A simple, lightweight JavaScript API for handling browser cookies.
+-[React](https://reactjs.org/):  A JavaScript library for building user interfaces. <br/>
+-[Next13.js](https://nextjs.org/): A React framework for building production-ready web applications.<br/>
+-[TypeScript](https://www.typescriptlang.org/): It is a strict syntactical superset of JavaScript and adds optional static typing to the language.<br/>
+-[Tailwind CSS](https://tailwindcss.com/): A utility-first CSS framework.<br/>
+-[Axios](https://axios-http.com/): A promise-based HTTP client for making requests to your backend API.<br/>
+-[js-cookie](https://github.com/js-cookie/js-cookie): A simple, lightweight JavaScript API for handling browser cookies.<br/>
 
 ## API TaskLink
 
