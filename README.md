@@ -1,4 +1,4 @@
-# TaskLink - Task Generator
+# TaskLink - Task Manager
 
 <p align="center">
   <img src="/public/logo.jpg" alt="TaskLink Logo" width="200">
